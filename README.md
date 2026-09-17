@@ -2,14 +2,6 @@
 
 This repository contains my Full-Stack Development work and practice for Semester 5.
 
-## Contents
-
-### CSS
-Contains basic CSS concepts, examples, and practice files.
-
-### Tailwind CSS
-Contains Tailwind CSS learning, examples, and practice projects.
-
 ## Technologies
 
 - HTML
@@ -24,3 +16,5 @@ This repository is used to track my learning, practice, and projects while study
 ## Author
 
 Rachit Dubey
+B.Tech CSE AIML (3C-40)
+2415500370
