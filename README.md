@@ -15,6 +15,6 @@ This repository is used to track my learning, practice, and projects while study
 
 ## Author
 
-Rachit Dubey
-B.Tech CSE AIML (3C-40)
+Rachit Dubey  
+B.Tech CSE AIML (3C-40)  
 2415500370
