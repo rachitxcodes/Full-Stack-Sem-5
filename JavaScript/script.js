@@ -1,16 +1,3 @@
-let a = 10;
-console.log(a); // 10
-
-console.log(x); // undefined
-var x = 5;
-
-for(var i=0; i<5; i++);
-console.log(i); // 5
-
-for(let i=0; i<5; i++);
-console.log(i); // ReferenceError: i is not defined
-
-
 // This is a single line comment
 
 /*
@@ -70,3 +57,57 @@ This is a multi-line comment
 
 
 
+
+
+// let a = 10;
+// console.log(a); // 10
+
+// console.log(x); // undefined
+// var x = 5;
+
+// for(var i=0; i<5; i++);
+// console.log(i); // 5
+
+// for(let i=0; i<5; i++);
+// console.log(i); // ReferenceError: i is not defined
+
+
+
+
+
+// console.log(1+1+1+"1");
+// var a = 1;
+// console.log(a+a+a+a+a.toString());
+// console.log(Number.parseInt(a)+Number.parseInt(a));
+
+
+
+
+
+// WAP to check is number is armstrong or not
+// let n = 153;
+// let temp = n;
+// let sum = 0;
+// let digits = n.toString().length;
+// while (temp > 0) {
+//     let rem = temp % 10;
+//     sum += rem ** digits;   
+//     temp = Math.floor(temp / 10);
+// }
+// if (sum === n) {
+//     console.log("Armstrong Number");
+// } else {
+//     console.log("Not an Armstrong Number");
+// }
+
+function isArmstrong(num) {
+    let temp = num;
+    let sum = 0;
+    let digits = num.toString().length;
+    while (temp > 0) {
+        let rem = temp % 10;
+        sum += rem ** digits;
+        temp = Math.floor(temp / 10);
+    }
+    return sum === num;
+}
