@@ -23,6 +23,7 @@
     <input type="number" id="min" placeholder="Minutes">
     <button onclick="startTimer()">Start</button>
     <h2 id="timer">00:00</h2>
+    <button onclick="addminutes()"> +1 min </button>
     <script>
         let totalSec = 0;
         let interval;
@@ -48,6 +49,11 @@
         `${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;    
         }
         UpdateTimer();
+
+        function addminutes() {
+            totalSec += 60;
+            UpdateTimer();
+        }
     </script>
 </body>
 </html>
