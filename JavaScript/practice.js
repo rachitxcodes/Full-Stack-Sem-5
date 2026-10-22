@@ -85,5 +85,18 @@
 // let result = arr.find((n) => n > 3);
 // console.log(result);
 
+// let a = 10;
+// let b = 20;
+// const sum = (a,b) => a + b;
+// console.log(sum(a, b));
+// console.log(sum(5,10));
 
 
+// Set Timeout  & Set Interval
+// setTimeout(() => {
+//     console.log("Hello");
+// }, 2000);
+
+// setInterval(() => {
+//     console.log("Hello");
+// }, 2000);
