@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- <h1 id="timer"></h1>
+    <script>
+        function showtime() {
+            const date = new Date();
+            const time = date.toLocaleTimeString();
+            document.getElementById("timer").innerHTML = time;
+
+            setTimeout(showtime, 2000);
+            // setInterval(showtime, 1000);
+        }
+        showtime();
+    </script> -->
+    
+    <h1> Count Down </h1>
+    <input type="number" id="min" placeholder="Minutes">
+    <button onclick="startTimer()">Start</button>
+    <h2 id="timer">00:00</h2>
+    <script>
+        let totalSec = 0;
+        let interval;
+
+        function startTimer() {
+            totalSec = Number(document.getElementById("min").value) * 60;
+            clearInterval(interval);
+            UpdateTimer();
+            interval = setInterval(() => {
+                if (totalSec <= 0) {
+                    clearInterval(interval);
+                    return;
+                }
+                totalSec--;
+                UpdateTimer();
+            }, 1000);
+        }
+
+        function UpdateTimer() {
+            let sec = totalSec % 60;
+            let min = Math.floor(totalSec / 60);
+                document.getElementById("timer").innerHTML =
+        `${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;    
+        }
+        UpdateTimer();
+    </script>
+</body>
+</html>

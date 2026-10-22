@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="btn">Click Me</button>
+    <h4 id="counter">Count: 0</h4>
+    <button id="reset">Reset</button>
+    <script>
+        const btn = document.getElementById("btn");
+        const counter = document.getElementById("counter");
+        const reset = document.getElementById("reset");
+        let count = 0;
+        btn.addEventListener("click", function() {
+            count++;
+            counter.innerHTML = `Count: ${count}`;
+        });
+        reset.addEventListener("click", function() {
+            count = 0;
+            counter.innerHTML = `Count: ${count}`;
+        });
+    </script>
+</body>
+</html>
