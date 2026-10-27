@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript Quiz</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+      background: #eef2ff;
+      color: #222;
+    }
+
+    .quiz {
+      max-width: 700px;
+      margin: auto;
+      padding: 25px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px #0002;
+    }
+
+    h1 {
+      margin-top: 0;
+      color: #4338ca;
+    }
+
+    .top, .details, .buttons {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .details {
+      margin: 20px 0 10px;
+      color: #555;
+    }
+
+    #timer {
+      padding: 8px 12px;
+      border-radius: 5px;
+      background: #e0e7ff;
+      color: #3730a3;
+      font-weight: bold;
+    }
+
+    #timer.warning {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+
+    .progress {
+      height: 8px;
+      margin-bottom: 25px;
+      background: #ddd;
+    }
+
+    #progress-bar {
+      width: 0;
+      height: 100%;
+      background: #4f46e5;
+    }
+
+    #question {
+      margin-bottom: 18px;
+    }
+
+    #answers {
+      display: grid;
+      gap: 10px;
+    }
+
+    .answer, button {
+      padding: 11px 15px;
+      border: 0;
+      border-radius: 5px;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .answer {
+      border: 1px solid #bbb;
+      background: white;
+      text-align: left;
+    }
+
+    .answer:hover:not(:disabled) {
+      border-color: #4f46e5;
+    }
+
+    .answer.correct {
+      background: #dcfce7;
+      border-color: #16a34a;
+    }
+
+    .answer.wrong {
+      background: #fee2e2;
+      border-color: #dc2626;
+    }
+
+    #feedback {
+      min-height: 45px;
+      margin: 15px 0;
+    }
+
+    #feedback.correct {
+      color: #15803d;
+    }
+
+    #feedback.wrong {
+      color: #b91c1c;
+    }
+
+    .primary {
+      background: #4f46e5;
+      color: white;
+    }
+
+    .secondary {
+      background: #e5e7eb;
+    }
+
+    .results {
+      text-align: center;
+    }
+
+    #final-score {
+      color: #4338ca;
+      font-size: 30px;
+      font-weight: bold;
+    }
+
+    .review {
+      margin-top: 25px;
+      text-align: left;
+    }
+
+    .wrong-question {
+      margin: 12px 0;
+      padding: 12px;
+      border-left: 4px solid #dc2626;
+      background: #f8fafc;
+    }
+
+    .correct-text {
+      color: #15803d;
+      font-weight: bold;
+    }
+
+    @media (max-width: 500px) {
+      .top {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="quiz">
+    <section id="quiz-screen">
+      <div class="top">
+        <div>
+          <h1>JavaScript Quiz</h1>
+          <p>Test your JavaScript knowledge.</p>
+        </div>
+        <div id="timer">30s</div>
+      </div>
+
+      <div class="details">
+        <span id="question-number"></span>
+        <span id="score">Score: 0</span>
+      </div>
+
+      <div class="progress">
+        <div id="progress-bar"></div>
+      </div>
+
+      <h2 id="question"></h2>
+      <div id="answers"></div>
+      <p id="feedback"></p>
+
+      <div class="buttons">
+        <button class="secondary" id="restart">Restart</button>
+        <button class="primary" id="next" disabled>Next</button>
+      </div>
+    </section>
+
+    <section class="results" id="results-screen" hidden>
+      <h1>Quiz Complete!</h1>
+      <p>Your final score is:</p>
+      <p id="final-score"></p>
+      <p id="rating"></p>
+      <button class="primary" id="try-again">Try Again</button>
+      <div class="review" id="review"></div>
+    </section>
+  </main>
+
+  <script>
+    const questions = [
+      ["Which keyword declares a block-scoped variable?", ["var", "let", "define", "constant"], 1, "let is block-scoped."],
+      ["What does === compare?", ["Only values", "Only types", "Values and types", "Names"], 2, "=== compares both value and type."],
+      ["Which method adds an item to an array?", ["push()", "pop()", "shift()", "join()"], 0, "push() adds an item to the end."],
+      ["What is the result of typeof null?", ["null", "undefined", "object", "boolean"], 2, "typeof null returns object."],
+      ["Which value is falsy?", ["[]", "{}", "\"false\"", "0"], 3, "0 is a falsy value."],
+      ["Which method parses JSON text?", ["JSON.parse()", "JSON.stringify()", "JSON.object()", "JSON.convert()"], 0, "JSON.parse() converts JSON text to a value."],
+      ["How do you write an arrow function?", ["function => ()", "() => {}", "-> function()", "arrow () {}"], 1, "() => {} is arrow function syntax."],
+      ["Which method returns matching array items?", ["find()", "filter()", "forEach()", "every()"], 1, "filter() returns all matching items."],
+      ["What does DOM stand for?", ["Data Object Model", "Document Object Model", "Document Order Method", "Digital Object Map"], 1, "DOM means Document Object Model."],
+      ["Which event happens when an element is clicked?", ["onchange", "onhover", "onclick", "onload"], 2, "onclick handles a click."],
+      ["Which keyword handles errors?", ["catch", "error", "handle", "except"], 0, "catch handles errors from a try block."],
+      ["What does Array.isArray([]) return?", ["false", "undefined", "true", "object"], 2, "An empty array is still an array."],
+      ["Which operator handles null or undefined values?", ["||", "??", "&&", "!="], 1, "?? is the nullish coalescing operator."],
+      ["What is a Promise used for?", ["Styling", "Async operations", "Classes", "Loops"], 1, "Promises handle future async results."],
+      ["Which method runs a function for every array item?", ["forEach()", "repeat()", "each()", "loop()"], 0, "forEach() visits every item."],
+      ["What does localStorage store?", ["Temporary data", "Browser data", "Server sessions", "CSS"], 1, "localStorage stores data in the browser."],
+      ["Which syntax imports a named export?", ["include {}", "require {}", "import { item } from './file.js'", "load item"], 2, "This is named import syntax."],
+      ["What does the spread operator look like?", ["...", "***", "=>", "%%"], 0, "The spread operator uses three dots."],
+      ["Which value means an intentional empty value?", ["empty", "null", "void", "none"], 1, "null represents an intentional absence of value."],
+      ["What does setTimeout() do?", ["Repeats code", "Runs code after a delay", "Stops timers", "Pauses browser"], 1, "setTimeout() runs a callback after a delay."],
+      ["Which keyword creates a class?", ["object", "struct", "class", "model"], 2, "class creates a class declaration."],
+      ["What does map() return?", ["Original array", "A new transformed array", "Boolean", "First item"], 1, "map() returns a new transformed array."],
+      ["Which scope is available throughout a script?", ["Block", "Function", "Global", "Loop"], 2, "Global scope is available throughout the script."],
+      ["What does preventDefault() do?", ["Stops bubbling", "Cancels default browser action", "Removes event", "Reloads page"], 1, "It cancels the browser's default action."],
+      ["Which method converts a value to JSON text?", ["JSON.parse()", "JSON.stringify()", "JSON.encode()", "JSON.text()"], 1, "JSON.stringify() creates JSON text."]
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+    let timeLeft = 30;
+    let timerId;
+    let answered = false;
+    let wrongAnswers = [];
+
+    const questionNumber = document.getElementById("question-number");
+    const scoreText = document.getElementById("score");
+    const timer = document.getElementById("timer");
+    const questionText = document.getElementById("question");
+    const answers = document.getElementById("answers");
+    const feedback = document.getElementById("feedback");
+    const nextButton = document.getElementById("next");
+
+    function showQuestion() {
+      const item = questions[currentQuestion];
+      answered = false;
+      timeLeft = 30;
+      questionNumber.textContent = `Question ${currentQuestion + 1} of ${questions.length}`;
+      scoreText.textContent = `Score: ${score}`;
+      questionText.textContent = item[0];
+      feedback.textContent = "";
+      feedback.className = "";
+      nextButton.disabled = true;
+      nextButton.textContent = currentQuestion === questions.length - 1 ? "Finish" : "Next";
+      document.getElementById("progress-bar").style.width =
+        `${((currentQuestion + 1) / questions.length) * 100}%`;
+      answers.innerHTML = "";
+
+      item[1].forEach((option, index) => {
+        const button = document.createElement("button");
+        button.className = "answer";
+        button.textContent = option;
+        button.addEventListener("click", () => chooseAnswer(index));
+        answers.appendChild(button);
+      });
+
+      startTimer();
+    }
+
+    function startTimer() {
+      clearInterval(timerId);
+      updateTimer();
+      timerId = setInterval(() => {
+        timeLeft--;
+        updateTimer();
+        if (timeLeft === 0) {
+          chooseAnswer(-1);
+        }
+      }, 1000);
+    }
+
+    function updateTimer() {
+      timer.textContent = `${timeLeft}s`;
+      timer.classList.toggle("warning", timeLeft <= 10);
+    }
+
+    function chooseAnswer(selected) {
+      if (answered) {
+        return;
+      }
+
+      answered = true;
+      clearInterval(timerId);
+      const item = questions[currentQuestion];
+      const buttons = answers.querySelectorAll(".answer");
+
+      buttons.forEach((button, index) => {
+        button.disabled = true;
+        if (index === item[2]) {
+          button.classList.add("correct");
+        } else if (index === selected) {
+          button.classList.add("wrong");
+        }
+      });
+
+      if (selected === item[2]) {
+        score++;
+        scoreText.textContent = `Score: ${score}`;
+        feedback.textContent = `Correct! ${item[3]}`;
+        feedback.className = "correct";
+      } else {
+        wrongAnswers.push({
+          question: item[0],
+          answer: selected === -1 ? "No answer (time expired)" : item[1][selected],
+          correct: item[1][item[2]],
+          explanation: item[3]
+        });
+        feedback.textContent = `The correct answer is "${item[1][item[2]]}". ${item[3]}`;
+        feedback.className = "wrong";
+      }
+
+      nextButton.disabled = false;
+    }
+
+    function showResults() {
+      clearInterval(timerId);
+      document.getElementById("quiz-screen").hidden = true;
+      document.getElementById("results-screen").hidden = false;
+      document.getElementById("final-score").textContent = `${score} / ${questions.length}`;
+
+      const percentage = score / questions.length * 100;
+      document.getElementById("rating").textContent = percentage >= 80
+        ? "Excellent work!"
+        : percentage >= 50
+          ? "Good effort! Keep practicing."
+          : "Keep practicing and try again.";
+
+      const review = document.getElementById("review");
+      review.innerHTML = wrongAnswers.length ? "<h2>Review Wrong Answers</h2>" : "<h2>Perfect score!</h2>";
+
+      wrongAnswers.forEach((item, index) => {
+        review.innerHTML += `
+          <div class="wrong-question">
+            <p><strong>${index + 1}. ${item.question}</strong></p>
+            <p>Your answer: ${item.answer}</p>
+            <p class="correct-text">Correct answer: ${item.correct}</p>
+            <p>${item.explanation}</p>
+          </div>`;
+      });
+    }
+
+    function restartQuiz() {
+      currentQuestion = 0;
+      score = 0;
+      wrongAnswers = [];
+      document.getElementById("quiz-screen").hidden = false;
+      document.getElementById("results-screen").hidden = true;
+      showQuestion();
+    }
+
+    nextButton.addEventListener("click", () => {
+      if (currentQuestion === questions.length - 1) {
+        showResults();
+      } else {
+        currentQuestion++;
+        showQuestion();
+      }
+    });
+
+    document.getElementById("restart").addEventListener("click", restartQuiz);
+    document.getElementById("try-again").addEventListener("click", restartQuiz);
+    showQuestion();
+  </script>
+</body>
+</html>
