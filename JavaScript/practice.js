@@ -138,3 +138,8 @@
 // for(let i in arr) {
 //     console.log(arr[i]);
 // }
+
+
+// let arr = [1,2,3,4,5, null, undefined]
+// console.log(arr.indexOf(undefined)); // -1 if not found
+// console.log(arr.indexOf(null));
