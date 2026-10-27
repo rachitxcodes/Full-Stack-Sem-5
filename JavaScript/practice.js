@@ -72,6 +72,7 @@
 // let result = arr.reduce(function(sum,n) {
 //     return sum + n;
 // },0);
+// let result = arr.reduce((sum,n) => sum + n, 0);
 // console.log(result);
 
 // Map function
@@ -100,3 +101,40 @@
 // setInterval(() => {
 //     console.log("Hello");
 // }, 2000);
+
+// // WAP to convert a user entered number into binary and hexdecimal format 
+// let number = 22;
+// console.log(number.toString(2));  // "10110"     (Base-2 / Binary)
+// console.log(number.toString(8));  // "377"       (Base-8 / Octal)
+// console.log(number.toString(10)); // "255"       (Base-10 / Decimal)
+// console.log(number.toString(16)); // "ff"        (Base-16 / Hexadecimal)
+
+
+// let arr =  [1, 2, 3, 4, 5,];
+// console.log(arr); // [1, 2, 3, 4, 5]
+
+// arr.push(6);
+// console.log(arr); // [1, 2, 3, 4, 5, 6]
+
+// arr.pop();
+// console.log(arr); // [1, 2, 3, 4, 5]
+
+// // unshift() method adds one or more elements to the beginning of an array and returns the new length of the array.
+// arr.unshift(0);
+// console.log(arr); // [0, 1, 2, 3, 4, 5]
+
+// // shift() method removes the first element from an array and returns that removed element. This method changes the length of the array.
+// console.log(arr.shift()); // 0
+
+
+// let arr = [1,2,3,4,5];
+// console.log(arr);
+// console.log(arr.join(" : "));
+// arr.foo = "hello";
+// console.log(arr);
+// for(let i=0; i<arr.length; i++) {
+//     console.log(arr[i]);
+// }
+// for(let i in arr) {
+//     console.log(arr[i]);
+// }
