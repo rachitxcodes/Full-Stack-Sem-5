@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1 align="center">Rock, Paper, Scissors</h1>
+    <br>
+    <h2 align="center">Choose your move:</h2>
+    <div align="center">
+        <button onclick="rpsPlay('rock')">Rock</button>
+        <button onclick="rpsPlay('paper')">Paper</button>
+        <button onclick="rpsPlay('scissors')">Scissors</button>
+    </div>
+
+    <p id="result" align="center"></p>
+
+    <script>
+        function rpsPlay(userChoice) {
+            const choices = ['rock', 'paper', 'scissors'];
+            const computerChoice = choices[Math.floor(Math.random() * 3)];
+
+            let result = '';
+
+            if (userChoice === computerChoice) {
+                result = "It's a tie!";
+            } else if (
+                (userChoice === 'rock' && computerChoice === 'scissors') ||
+                (userChoice === 'paper' && computerChoice === 'rock') ||
+                (userChoice === 'scissors' && computerChoice === 'paper')
+            ) {
+                result = "You win!";
+            } else {
+                result = "Computer wins!";
+            }
+
+            document.getElementById('result').innerHTML =
+                `You chose ${userChoice}. Computer chose ${computerChoice}. <h3>${result}</h3>`;
+        }
+    </script>
+</body>
+</html>

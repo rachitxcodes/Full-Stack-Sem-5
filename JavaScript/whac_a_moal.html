@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whac-A-Mole</title>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            background: bisque;
+            font-family: Arial, sans-serif;
+        }
+
+        .game {
+            text-align: center;
+        }
+
+        button {
+            margin: 10px 4px 20px;
+            padding: 10px 18px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 120px);
+            gap: 10px;
+            padding: 15px;
+            background: limegreen;
+            border: 2px solid #444;
+            border-radius: 10px;
+        }
+
+        .hole {
+            width: 120px;
+            height: 120px;
+            padding: 0;
+            margin: 0;
+            border: 5px solid #222;
+            border-radius: 50%;
+            background: #13378b;
+        }
+
+        .mole {
+            background: #13378b url("https://media.geeksforgeeks.org/wp-content/uploads/20231130123541/mole.png")
+                center / contain no-repeat;
+        }
+
+        @media (max-width: 600px) {
+            .board {
+                grid-template-columns: repeat(3, 70px);
+                padding: 10px;
+            }
+
+            .hole {
+                width: 70px;
+                height: 70px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="game">
+        <h1>Whac-A-Mole</h1>
+        <p id="score">Score: 0</p>
+        <p id="time">Time: 60s</p>
+        <button id="start">Start Game</button>
+        <button id="end" disabled>End Game</button>
+        <section id="board" class="board" aria-label="Game board"></section>
+    </main>
+
+    <script>
+        const board = document.querySelector("#board");
+        const scoreText = document.querySelector("#score");
+        const timeText = document.querySelector("#time");
+        const startButton = document.querySelector("#start");
+        const endButton = document.querySelector("#end");
+
+        let score = 0;
+        let time = 60;
+        let gameRunning = false;
+        let timerId;
+        let moleId;
+
+        for (let i = 0; i < 9; i++) {
+            const hole = document.createElement("button");
+            hole.className = "hole";
+            hole.type = "button";
+            board.appendChild(hole);
+        }
+
+        const holes = document.querySelectorAll(".hole");
+
+        function showMole() {
+            holes.forEach(hole => hole.classList.remove("mole"));
+            const randomHole = holes[Math.floor(Math.random() * holes.length)];
+            randomHole.classList.add("mole");
+        }
+
+        function finishGame(message) {
+            clearInterval(timerId);
+            clearInterval(moleId);
+            holes.forEach(hole => hole.classList.remove("mole"));
+            gameRunning = false;
+            startButton.disabled = false;
+            endButton.disabled = true;
+            alert(`${message}\nYour final score: ${score}`);
+        }
+
+        function startGame() {
+            if (gameRunning) return;
+
+            score = 0;
+            time = 60;
+            gameRunning = true;
+            scoreText.textContent = "Score: 0";
+            timeText.textContent = "Time: 60s";
+            startButton.disabled = true;
+            endButton.disabled = false;
+            showMole();
+
+            moleId = setInterval(showMole, 800);
+            timerId = setInterval(() => {
+                time--;
+                timeText.textContent = `Time: ${time}s`;
+
+                if (time === 0) {
+                    finishGame("Game Over!");
+                }
+            }, 1000);
+        }
+
+        board.addEventListener("click", event => {
+            if (gameRunning && event.target.classList.contains("mole")) {
+                score++;
+                scoreText.textContent = `Score: ${score}`;
+                event.target.classList.remove("mole");
+            }
+        });
+
+        startButton.addEventListener("click", startGame);
+        endButton.addEventListener("click", () => finishGame("Game Ended!"));
+    </script>
+</body>
+
+</html>

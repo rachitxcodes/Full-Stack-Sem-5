@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Guess the Number</title>
+</head>
+<body>
+    <h2 align="center">Guess the Number</h2>
+
+    <p id="instructions">Set your game first.</p>
+
+    <input type="number" id="min" placeholder="Enter minimum">
+    <input type="number" id="max" placeholder="Enter maximum">
+    <input type="number" id="attemptsInput" placeholder="Enter attempts">
+
+    <button onclick="setGame()">Set Game</button>
+
+    <br><br>
+
+    <input type="number" id="guess" placeholder="Enter your guess">
+    <button onclick="checkGuess()">Guess</button>
+
+    <p id="result"></p>
+    <p id="attempts">Attempts left: 0</p>
+
+    <script>
+        let randomNumber;
+        let min, max, attempts;
+        let gameSet = false;
+
+        function setGame() {
+            let minValue = document.getElementById("min").value;
+            let maxValue = document.getElementById("max").value;
+            let attemptsValue = document.getElementById("attemptsInput").value;
+
+            if (minValue === "" || maxValue === "" || attemptsValue === "") {
+                alert("Please enter all values!");
+                return;
+            }
+
+            min = Number(minValue);
+            max = Number(maxValue);
+            attempts = Number(attemptsValue);
+
+            if (min < 1 || max > 100 || min >= max || attempts <= 0) {
+                alert("Enter valid values!");
+                return;
+            }
+
+            randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+
+            gameSet = true;
+
+            document.getElementById("attempts").textContent =
+                "Attempts left: " + attempts;
+
+            document.getElementById("instructions").textContent =
+                "Guess a number between " + min + " and " + max;
+
+            document.getElementById("result").textContent = "";
+
+            alert("Game is set! Start guessing.");
+        }
+
+        function checkGuess() {
+            let guessValue = document.getElementById("guess").value;
+
+            if (!gameSet) {
+                alert("Please enter the values and set the game first!");
+                return;
+            }
+
+            if (guessValue === "") {
+                alert("Please enter your guess!");
+                return;
+            }
+
+            let guess = Number(guessValue);
+
+            if (guess < min || guess > max) {
+                alert("Enter a number between " + min + " and " + max);
+                return;
+            }
+
+            attempts--;
+
+            if (guess === randomNumber) {
+                document.getElementById("result").textContent =
+                    "Correct! You won!";
+                gameSet = false;
+            } else if (attempts === 0) {
+                document.getElementById("result").textContent =
+                    "Game over! Number was " + randomNumber;
+                gameSet = false;
+            } else if (guess < randomNumber) {
+                document.getElementById("result").textContent =
+                    "Too low! Try higher.";
+            } else {
+                document.getElementById("result").textContent =
+                    "Too high! Try lower.";
+            }
+
+            document.getElementById("attempts").textContent =
+                "Attempts left: " + attempts;
+        }
+    </script>
+</body>
+</html>
