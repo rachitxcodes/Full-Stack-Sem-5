@@ -93,6 +93,7 @@
 // console.log(sum(5,10));
 
 
+
 // Set Timeout  & Set Interval
 // setTimeout(() => {
 //     console.log("Hello");
@@ -108,6 +109,7 @@
 // console.log(number.toString(8));  // "377"       (Base-8 / Octal)
 // console.log(number.toString(10)); // "255"       (Base-10 / Decimal)
 // console.log(number.toString(16)); // "ff"        (Base-16 / Hexadecimal)
+
 
 
 // let arr =  [1, 2, 3, 4, 5,];
@@ -127,6 +129,7 @@
 // console.log(arr.shift()); // 0
 
 
+
 // let arr = [1,2,3,4,5];
 // console.log(arr);
 // console.log(arr.join(" : "));
@@ -140,6 +143,43 @@
 // }
 
 
+
 // let arr = [1,2,3,4,5, null, undefined]
 // console.log(arr.indexOf(undefined)); // -1 if not found
 // console.log(arr.indexOf(null));
+
+
+
+// const sum = (...arr) => {
+//     return arr.reduce((sum, n) => sum + n, 0);
+// }
+// console.log(sum(1,2,3));
+
+// function add1(a, b) {
+//     return a + b;
+// }
+// console.log(add1(5, 10));
+
+// function add(a=0, b=5) {
+//     return a + b;
+// }   
+// console.log(add());
+// console.log(add(5));
+// console.log(add(5, 10));
+
+
+
+// export const add = (a=0, b=5) => a + b;
+
+
+
+// Clousure Example
+function outer() {
+    let a = 5;
+    function inner() {
+        let b = 10;
+        console.log(a + b);
+    }
+    inner();
+}
+outer(); // 15
