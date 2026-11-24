@@ -1,26 +1,25 @@
-import Button from './components/Button'
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
+import Home from './pages/Home'
+import Posts from './pages/Posts'
 import './App.css'
 
 function App() {
-
-  let isLoggedIn = true
-
-  const mydetails = {
-    name: "Rachit Dubey",
-    email: "rachitd2210@xyz.com"
-  }
-
   return (
-    <div className="App">
-      <h1>Welcome to my React App</h1>
-      {isLoggedIn ? (
-        <p>Hello, {mydetails.name}! Your email is {mydetails.email}.</p>
-      ) : (
-        <p>Please log in to see your details.</p>
-      )}
-      
-      <Button />
-    </div>
+    <BrowserRouter>
+      <div className="App">
+
+        <nav>
+          <Link to="/">Home</Link>
+          <Link to="/posts">Posts</Link>
+        </nav>
+
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/posts" element={<Posts />} />
+        </Routes>
+
+      </div>
+    </BrowserRouter>
   )
 }
 
