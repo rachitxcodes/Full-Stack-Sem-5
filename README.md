@@ -8,6 +8,7 @@ This repository contains my Full-Stack Development work and practice for Semeste
 - CSS
 - Tailwind CSS
 - JavaScript
+- React
 
 ## Purpose
 
